@@ -30,19 +30,23 @@ jobs:
     - name: Build Release APK
       run: ./gradlew assembleRelease  
       
-    - name: Releasing using Hub And 
-      uses: ShowMeThe/github_action_release@master
-      # ID used to access action output
-      id: sign_app
-      with:
-        releaseDirectory: app/build/outputs/apk/release/app-release-unsigned.apk
-#       signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-#       alias: ${{ secrets.ALIAS }}
-#       keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-#       keyPassword: ${{ secrets.KEY_PASSWORD }}
-      
-  # Example use of `signedReleaseFile` output -- not needed
-    - uses: actions/upload-artifact@v2
-      with:
-        name: Signed app bundle
-        path: ${{steps.sign_app.releaseDirectory}}
+    - name: Sign APK
+      uses: r0adkll/sign-android-release@v1
+        # ID used to access action output
+        id: sign_app
+        with:
+          releaseDirectory: app/build/outputs/apk/release
+          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+          alias: ${{ secrets.ALIAS }}
+          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
+      # 4
+      - uses: actions/upload-artifact@master
+        with:
+          name: release.apk
+          path: ${{steps.sign_app.outputs.signedReleaseFile}}
+      # 5
+      - uses: actions/upload-artifact@master
+        with:
+          name: mapping.txt
+          path: app/build/outputs/mapping/release/mapping.txt
