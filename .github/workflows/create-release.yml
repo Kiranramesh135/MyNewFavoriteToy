@@ -27,15 +27,15 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew build
       
-    - name: Checkout code
-      uses: actions/checkout@v2
+    - name: Build Release APK
+      run: ./gradlew assembleRelease  
       
-    - name: Sign app APK
-      uses: r0adkll/sign-android-release@v1
+    - name: Releasing using Hub And 
+      uses: ShowMeThe/github_action_release@master
       # ID used to access action output
       id: sign_app
       with:
-        releaseDirectory: /app/build/outputs/apk/release/app-release-unsigned.apk
+        releaseDirectory: app/build/outputs/apk/release/app-release-unsigned.apk
 #       signingKeyBase64: ${{ secrets.SIGNING_KEY }}
 #       alias: ${{ secrets.ALIAS }}
 #       keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
