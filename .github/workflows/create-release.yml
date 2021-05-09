@@ -4,8 +4,7 @@ name: Create release
 
 on:
   create:
-    tags:
-    - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+    tags: ['v*'] # Push events to matching v*, i.e. v1.0, v20.15.10
     
 jobs:
   build:
